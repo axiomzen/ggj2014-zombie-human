@@ -1,92 +1,68 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', 
-                           {preload: preload, create: create, update: update, render: render });
+SCREEN_W = 800
+SCREEN_H = 500
 
-var keyboard, cursors
-var debugBtn
-var map, groundLayer, tileset
+WORLD_W = SCREEN_W
+WORLD_H = SCREEN_H * 10
 
-var z1
+var game = new Phaser.Game(SCREEN_W, SCREEN_H, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render : render });
 
 function preload() {
-  game.load.image('fab', 'http://gravatar.com/avatar/922c9fdc02ec0531cd152ca7cadb33bf?s=50');
-  game.load.tilemap('map', 'tiles/map3.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.tileset('tiles', 'tiles/mini-tiles.png',20,20);
-//    game.load.tileset('tiles', 'phaser-master/examples/assets/maps/mario1.png',16,16);
-  game.load.image('player', 'phaser-master/examples/assets/sprites/phaser-dude.png');
+
+    game.stage.backgroundColor = '#007236';
+
+    game.load.image('mushroom', 'phaser-master/examples/assets/sprites/mushroom2.png');
+    game.load.image('wabbit',    'phaser-master/examples/assets/sprites/wabbit.png');
 }
 
-function create() {
-  game.stage.backgroundColor = '#2d2d2d';
-  
-  keyboard = game.input.keyboard
-  cursors = game.input.keyboard.createCursorKeys()
-  debugBtn = game.add.button(game.world.width - 30, 0, 'btn', activateDebug, this, 2, 1, 0);
-//   debugBtn.fixedToCamera = true
-  
-  map = game.add.tilemap('map')
-  tileset = game.add.tileset('tiles')
-  
-  //  floor
-//   tileset.setCollisionRange(10, 97, true, true, true, true);
-  tileset.setCollision(74, true, true, true, true)
-  
-  groundLayer = game.add.tilemapLayer(0, 0, 800, 600, tileset, map, 0)
-  groundLayer.fixedToCamera=false
-  groundLayer.resizeWorld()
+var cursors;
+var hero
 
-  z1 = game.add.sprite(30,30,'player')
-  z1.body.gravity.y = 10;
-  z1.body.bounce.y = 0.1;
-  z1.anchor.setTo(0.5, 0.5);
-  z1.body.collideWorldBounds = true
-  
-  game.camera.follow(z1);
+function create() {
+
+    //  Modify the world and camera bounds
+    game.world.setBounds(0,0, WORLD_W,WORLD_H );
+
+    for (var i = 0; i < 200; i++)
+    {
+        game.add.sprite(game.world.randomX, game.world.randomY, 'mushroom');
+    }
+
+    cursors = game.input.keyboard.createCursorKeys();
+
+    hero = game.add.sprite( WORLD_W/2, WORLD_H -100, 'wabbit' )
+    hero.body.collideWorldBounds = true
+    // hero.x =- hero.body.width
+    hero.x -= hero.body.halfWidth
+
+
+    game.camera.follow(hero);
 }
 
 function update() {
-    game.physics.collide(z1,groundLayer);
 
-    z1.body.velocity.x = 0;
+    hero.body.velocity.x *= 0.1;
+    hero.body.velocity.y *= 0.1;
 
-    if (cursors.up.isDown)
-    {
-//         if (z1.body.touching.down)
-//         {
-            z1.body.velocity.y = -400;
-//         }
+    if (cursors.up.isDown){
+        hero.body.velocity.y = -200
     }
-    else if (cursors.down.isDown)
-    {
-        // game.camera.y += 4;
+    else if (cursors.down.isDown){
+        hero.body.velocity.y = 200
     }
 
-    if (cursors.left.isDown)
-    {
-        z1.body.velocity.x = -150;
+    if (cursors.left.isDown) {
+        hero.body.velocity.x = -300;
     }
-    else if (cursors.right.isDown)
-    {
-        z1.body.velocity.x = 150;
+    else if (cursors.right.isDown){
+        hero.body.velocity.x = 300;
     }
 
-}
-
-
-function activateDebug(){
-  debugger
 }
 
 function render() {
-  game.debug.renderSpriteInfo(z1, 100, 100);
-//   console.log(z1.x, z1.y)
-  //game.debug.renderSpriteInfo(p1, 100, 10);
-  //enemyGroup.forEach(function(ball){
-  //  if (ball && ball.exists ){
-  //    game.debug.renderSpriteBody(ball);
-  //  }
-  //})
-  //game.debug.renderSpriteCollision(sprite1, 32, 400);
-//   game.debug.renderSpriteBody(z1);
-//   game.debug.renderSpriteBounds(z1);
-  //game.debug.renderSpriteBody(sprite2);
+
+    game.debug.renderCameraInfo(game.camera, 32, 32);
+    game.debug.renderSpriteInfo(hero, 320, 32);
+    game.debug.renderSpriteBody(hero)
+
 }
