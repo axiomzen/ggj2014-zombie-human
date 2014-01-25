@@ -3,14 +3,16 @@ ggj2014-zombie-human
 
 Game repo - based on phaser.js
 
-Running on top of node.js and grunt, at least for dev purposes
+Running on top of node.js, grunt, [livereload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en) **for dev**
+
+I'm using Chrome as Javascript editor, feels good!
 
 
 ## run the game in dev mode:
 
 ```
-# once only:
-npm i -g grunt grunt-cli
+# only once:
+npm i -g grunt grunt-cli livereload
 ```
 
 in root folder run:
