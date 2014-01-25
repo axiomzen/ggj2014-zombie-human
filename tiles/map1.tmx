@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="rufino-tamayo-2013-hires" tilewidth="50" tileheight="50">
+  <image source="rufino-tamayo-2013-hires.jpg" width="1030" height="352"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKEL9P3zDZZDwVVTVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/ASAutxs=
+  </data>
+ </layer>
+</map>

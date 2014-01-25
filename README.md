@@ -6,13 +6,18 @@ Game repo - based on phaser.js
 Running on top of node.js and grunt, at least for dev purposes
 
 
-## run the game:
+## run the game in dev mode:
 
-go to `src/` run:
+```
+# once only:
+npm i -g grunt grunt-cli
+```
+
+in root folder run:
 
 ```
 npm i
-grunt connect
+grunt
 open http://localhost:5423/
 ```
 
