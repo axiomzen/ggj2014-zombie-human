@@ -36,8 +36,10 @@ function create() {
 
   z1 = game.add.sprite(30,30,'player')
   z1.body.gravity.y = 10;
-  z1.body.bounce.y = 0.4;
+  z1.body.bounce.y = 0.1;
   z1.anchor.setTo(0.5, 0.5);
+  z1.body.collideWorldBounds = true
+  
   game.camera.follow(z1);
 }
 
@@ -75,7 +77,7 @@ function activateDebug(){
 }
 
 function render() {
-  game.debug.renderSpriteInfo(z1, 100, 10);
+  game.debug.renderSpriteInfo(z1, 100, 100);
 //   console.log(z1.x, z1.y)
   //game.debug.renderSpriteInfo(p1, 100, 10);
   //enemyGroup.forEach(function(ball){
