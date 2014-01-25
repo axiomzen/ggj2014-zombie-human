@@ -29,40 +29,20 @@ function create() {
 
     cursors = game.input.keyboard.createCursorKeys();
 
-    hero = game.add.sprite( WORLD_W/2, WORLD_H -100, 'wabbit' )
-    hero.body.collideWorldBounds = true
-    // hero.x =- hero.body.width
-    hero.x -= hero.body.halfWidth
+    hero = new Hero()
 
-
-    game.camera.follow(hero);
+    game.camera.follow(hero.sprite);
 }
 
 function update() {
 
-    hero.body.velocity.x *= 0.1;
-    hero.body.velocity.y *= 0.1;
-
-    if (cursors.up.isDown){
-        hero.body.velocity.y = -200
-    }
-    else if (cursors.down.isDown){
-        hero.body.velocity.y = 200
-    }
-
-    if (cursors.left.isDown) {
-        hero.body.velocity.x = -300;
-    }
-    else if (cursors.right.isDown){
-        hero.body.velocity.x = 300;
-    }
-
+  hero.update()
 }
 
 function render() {
 
-    game.debug.renderCameraInfo(game.camera, 32, 32);
-    game.debug.renderSpriteInfo(hero, 320, 32);
-    game.debug.renderSpriteBody(hero)
+  game.debug.renderCameraInfo(game.camera, 32, 32);
+  game.debug.renderSpriteInfo(hero.sprite, 320, 32);
+  game.debug.renderSpriteBody(hero.sprite)
 
 }
