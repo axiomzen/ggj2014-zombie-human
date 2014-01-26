@@ -18,7 +18,7 @@ Hero = function () {
   var st = this.spriteStates = {}
   st.frontStand = game.add.sprite( -100, -100, 'linkFront', 0 )
   st.frontStand.visible = false
-  st.frontStand.scale.setTo( 1.7, 1.7 )
+  st.frontStand.scale.setTo( 2, 2 )
   st.frontStand.anchor.setTo( 0.25, 0.25 )
   st.frontStand.body.immovable = true
   st.frontStand.stand = true
@@ -26,14 +26,14 @@ Hero = function () {
   st.frontWalk = game.add.sprite( -100, -100, 'linkFront', 1)
   st.frontWalk.animations.add('walk', [1,0,2])
   st.frontWalk.visible = false
-  st.frontWalk.scale.setTo( 1.7, 1.7 )
+  st.frontWalk.scale.setTo( 2, 2 )
   st.frontWalk.anchor.setTo( 0.25, 0.25 )
   st.frontWalk.body.immovable = true
 
 
   st.backStand = game.add.sprite( -100, -100, 'linkBack', 0 )
   st.backStand.visible = false
-  st.backStand.scale.setTo( 1.7, 1.7 )
+  st.backStand.scale.setTo( 2, 2 )
   st.backStand.anchor.setTo( 0.25, 0.25 )
   st.backStand.body.immovable = true
   st.backStand.stand = true
@@ -41,14 +41,14 @@ Hero = function () {
   st.backWalk = game.add.sprite( -100, -100, 'linkBack', 1)
   st.backWalk.animations.add('walk', [1,0,2])
   st.backWalk.visible = false
-  st.backWalk.scale.setTo( 1.7, 1.7 )
+  st.backWalk.scale.setTo( 2, 2 )
   st.backWalk.anchor.setTo( 0.25, 0.25 )
   st.backWalk.body.immovable = true
 
 
   st.leftStand = game.add.sprite( -100, -100, 'linkLeft', 0 )
   st.leftStand.visible = false
-  st.leftStand.scale.setTo( 1.7, 1.7 )
+  st.leftStand.scale.setTo( 2, 2 )
   st.leftStand.anchor.setTo( 0.25, 0.25 )
   st.leftStand.body.immovable = true
   st.leftStand.stand = true
@@ -56,14 +56,14 @@ Hero = function () {
   st.leftWalk = game.add.sprite( -100, -100, 'linkLeft', 1)
   st.leftWalk.animations.add('walk', [1,0,2])
   st.leftWalk.visible = false
-  st.leftWalk.scale.setTo( 1.7, 1.7 )
+  st.leftWalk.scale.setTo( 2, 2 )
   st.leftWalk.anchor.setTo( 0.25, 0.25 )
   st.leftWalk.body.immovable = true
 
 
   st.rightStand = game.add.sprite( -100, -100, 'linkRight', 0 )
   st.rightStand.visible = false
-  st.rightStand.scale.setTo( 1.7, 1.7 )
+  st.rightStand.scale.setTo( 2, 2 )
   st.rightStand.anchor.setTo( 0.25, 0.25 )
   st.rightStand.body.immovable = true
   st.rightStand.stand = true
@@ -71,7 +71,7 @@ Hero = function () {
   st.rightWalk = game.add.sprite( -100, -100, 'linkRight', 1)
   st.rightWalk.animations.add('walk', [1,0,2])
   st.rightWalk.visible = false
-  st.rightWalk.scale.setTo( 1.7, 1.7 )
+  st.rightWalk.scale.setTo( 2, 2 )
   st.rightWalk.anchor.setTo( 0.25, 0.25 )
   st.rightWalk.body.immovable = true
   
@@ -82,7 +82,7 @@ Hero = function () {
 }
 
 Hero.prototype.update = function() {
-  if( this.sprite.alive ){
+  if( this.sprite.alive && game.playing ){
     this.sprite.body.velocity.x *= 0.2;
     this.sprite.body.velocity.y *= 0.2;
 
@@ -160,6 +160,12 @@ Hero.prototype.setVisual = function() {
 Hero.prototype.render = function() {
   this.setVisual()
 }
+
+Hero.prototype.winMode = function() {
+  this.sprite.body.velocity.setTo(0,+0.001)
+  // this.currentSprite = this.spriteStates.frontStand
+  game.add.tween(this.currentSprite.scale).to( { x:30, y:30 }, 1000, Phaser.Easing.Linear.None, true);
+};
 
 // random damage for debug
 // setInterval( function() {
