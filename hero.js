@@ -1,5 +1,5 @@
 
-MAX_LEVEL = 10
+MAX_LEVEL = LEVELS
 
 // rely on game && cursors
 Hero = function () {
@@ -42,4 +42,8 @@ Hero.prototype.pickMed = function() {
   this.level++
   this.percentage = this.level / MAX_LEVEL
 
+};
+
+Hero.prototype.body = function() {
+  return this.sprite.body
 };
