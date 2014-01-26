@@ -90,7 +90,7 @@ Hero.prototype.update = function() {
 
     // Phaser.Rectangle.contains(this.sprite.body, game.input.x, game.input.y)
     if (game.input.mousePointer.isDown && !Phaser.Rectangle.contains(this.sprite.body, game.input.x + game.camera.x, game.input.y +  game.camera.y) ) {
-      game.physics.moveToPointer(this.sprite, 300);
+      game.physics.moveToPointer(this.sprite, 600);
     }
 
     if (cursors.up.isDown){

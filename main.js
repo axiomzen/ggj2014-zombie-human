@@ -7,13 +7,15 @@ function preload() {
     game.stage.backgroundColor = '#007236';
 
     game.load.image('mushroom', 'phaser-master/examples/assets/sprites/mushroom2.png');
-    game.load.image('wabbit',   'phaser-master/examples/assets/sprites/wabbit.png');
+    // game.load.image('wabbit',   'phaser-master/examples/assets/sprites/wabbit.png');
     game.load.image('sparkle',   'phaser-master/examples/assets/sprites/particle1.png');
 
     game.load.spritesheet('linkBack', 'images/zombie1_back.png', 32, 32, 3);
     game.load.spritesheet('linkFront',   'images/zombie1_front.png', 32, 32, 3);
     game.load.spritesheet('linkLeft', 'images/zombie1_left.png', 32, 32, 3);
     game.load.spritesheet('linkRight', 'images/zombie1_right.png', 32, 32, 3);
+
+    game.load.image('ground', 'images/earth.png') // light_grass, dark_grass
 }
 
 var cursors;
@@ -21,6 +23,7 @@ var hero
 var medEffectParticles
 
 function create() {
+  paintGround()
 
   game.world.setBounds(0,0, WORLD_W,WORLD_H );
 
@@ -38,14 +41,30 @@ function create() {
   medEffectParticles.gravity = 0.0
   medEffectParticles.setXSpeed(-300,300)
   medEffectParticles.setYSpeed(-300,300)
+
 }
 
 function update() {
+  
 
   hero.update()
   game.physics.collide( hero.sprite, Medicine.group, heroPickMed )
 
   // auto-complete the game // game.physics.moveToObject(hero.sprite, Medicine.group.getFirstAlive(), 500)
+}
+
+function paintGround () {
+  var sprite = game.add.sprite(-100,0, 'ground')
+
+  var blocks_x = WORLD_W/sprite.width
+  var blocks_y = WORLD_H/sprite.height
+  // console.log(blocks_x,blocks_y)
+  for (var i = 0; i < blocks_x; i++) {
+    for (var j = 0; j < blocks_y; j++) {
+      // console.log('ground', sprite.width*i, sprite.height*j)
+      game.add.sprite(sprite.width*i, sprite.height*j, 'ground')
+    };
+  };
 }
 
 function heroPickMed (heroSprite, med) {
