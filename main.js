@@ -17,6 +17,8 @@ function preload() {
 
     game.load.image('ground', 'images/earth.png') // light_grass, dark_grass
     game.load.image('titleBg', 'images/starfield.png')
+
+    game.load.audio('ztitle', ['audio/music/ZombieTitle.mp3', 'audio/music/ZombieTitle.ogg']);
 }
 
 var cursors;
@@ -25,6 +27,9 @@ var medEffectParticles
 var titleLayer
 
 function create() {
+
+  game.music = null
+
   paintGround()
 
   game.world.setBounds(0,0, WORLD_W,WORLD_H );
@@ -49,6 +54,11 @@ function create() {
 }
 
 function makeTitleScreen () {
+
+  game.music = game.add.audio('ztitle', 1, true)
+  //(marker, position, volume, loop, forceRestart)
+  game.music.play('',0,1,true);
+
   titleLayer = game.add.group()
   titleLayer.z = 10
 
@@ -99,8 +109,10 @@ function winGame () {
 }
 
 function startGame () {
+  game.music.stop()
   titleLayer.visible = false
   game.playing = true
+  // music.play('',0,1,true);
 }
 
 function update() {
