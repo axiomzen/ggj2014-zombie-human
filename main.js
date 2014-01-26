@@ -10,9 +10,10 @@ function preload() {
     game.load.image('wabbit',   'phaser-master/examples/assets/sprites/wabbit.png');
     game.load.image('sparkle',   'phaser-master/examples/assets/sprites/particle1.png');
 
-    game.load.spritesheet('linkDown', 'images/link_down.png', 32, 32, 3);
-    game.load.spritesheet('linkUp', 'images/link_up.png', 32, 32, 3);
-    game.load.spritesheet('linkSide', 'images/link_side.png', 32, 32, 3);
+    game.load.spritesheet('linkBack', 'images/zombie1_back.png', 32, 32, 3);
+    game.load.spritesheet('linkFront',   'images/zombie1_front.png', 32, 32, 3);
+    game.load.spritesheet('linkLeft', 'images/zombie1_left.png', 32, 32, 3);
+    game.load.spritesheet('linkRight', 'images/zombie1_right.png', 32, 32, 3);
 }
 
 var cursors;

@@ -16,46 +16,69 @@ Hero = function () {
   this.percentage = 0
 
   var st = this.spriteStates = {}
-  st.frontStand = game.add.sprite( -100, -100, 'linkDown', 0 )
+  st.frontStand = game.add.sprite( -100, -100, 'linkFront', 0 )
   st.frontStand.visible = false
   st.frontStand.scale.setTo( 1.7, 1.7 )
   st.frontStand.anchor.setTo( 0.25, 0.25 )
   st.frontStand.body.immovable = true
+  st.frontStand.stand = true
 
-  st.frontWalk = game.add.sprite( -100, -100, 'linkDown', 1)
-  st.frontWalk.animations.add('walk', [1,2])
+  st.frontWalk = game.add.sprite( -100, -100, 'linkFront', 1)
+  st.frontWalk.animations.add('walk', [1,0,2])
   st.frontWalk.visible = false
   st.frontWalk.scale.setTo( 1.7, 1.7 )
   st.frontWalk.anchor.setTo( 0.25, 0.25 )
   st.frontWalk.body.immovable = true
 
 
-  st.backStand = game.add.sprite( -100, -100, 'linkUp', 0 )
+  st.backStand = game.add.sprite( -100, -100, 'linkBack', 0 )
   st.backStand.visible = false
   st.backStand.scale.setTo( 1.7, 1.7 )
   st.backStand.anchor.setTo( 0.25, 0.25 )
   st.backStand.body.immovable = true
+  st.backStand.stand = true
 
-  st.backWalk = game.add.sprite( -100, -100, 'linkUp', 1)
-  st.backWalk.animations.add('walk', [1,2])
+  st.backWalk = game.add.sprite( -100, -100, 'linkBack', 1)
+  st.backWalk.animations.add('walk', [1,0,2])
   st.backWalk.visible = false
   st.backWalk.scale.setTo( 1.7, 1.7 )
   st.backWalk.anchor.setTo( 0.25, 0.25 )
   st.backWalk.body.immovable = true
 
 
-  st.sideStand = game.add.sprite( -100, -100, 'linkSide', 0 )
-  st.sideStand.visible = false
-  st.sideStand.scale.setTo( 1.7, 1.7 )
-  st.sideStand.anchor.setTo( 0.25, 0.25 )
-  st.sideStand.body.immovable = true
+  st.leftStand = game.add.sprite( -100, -100, 'linkLeft', 0 )
+  st.leftStand.visible = false
+  st.leftStand.scale.setTo( 1.7, 1.7 )
+  st.leftStand.anchor.setTo( 0.25, 0.25 )
+  st.leftStand.body.immovable = true
+  st.leftStand.stand = true
 
-  st.sideWalk = game.add.sprite( -100, -100, 'linkSide', 1)
-  st.sideWalk.animations.add('walk', [1,2])
-  st.sideWalk.visible = false
-  st.sideWalk.scale.setTo( 1.7, 1.7 )
-  st.sideWalk.anchor.setTo( 0.25, 0.25 )
-  st.sideWalk.body.immovable = true
+  st.leftWalk = game.add.sprite( -100, -100, 'linkLeft', 1)
+  st.leftWalk.animations.add('walk', [1,0,2])
+  st.leftWalk.visible = false
+  st.leftWalk.scale.setTo( 1.7, 1.7 )
+  st.leftWalk.anchor.setTo( 0.25, 0.25 )
+  st.leftWalk.body.immovable = true
+
+
+  st.rightStand = game.add.sprite( -100, -100, 'linkRight', 0 )
+  st.rightStand.visible = false
+  st.rightStand.scale.setTo( 1.7, 1.7 )
+  st.rightStand.anchor.setTo( 0.25, 0.25 )
+  st.rightStand.body.immovable = true
+  st.rightStand.stand = true
+
+  st.rightWalk = game.add.sprite( -100, -100, 'linkRight', 1)
+  st.rightWalk.animations.add('walk', [1,0,2])
+  st.rightWalk.visible = false
+  st.rightWalk.scale.setTo( 1.7, 1.7 )
+  st.rightWalk.anchor.setTo( 0.25, 0.25 )
+  st.rightWalk.body.immovable = true
+  
+  // this.currentSprite.x = this.sprite.x
+  // this.currentSprite.y = this.sprite.y
+  // this.currentSprite.visible = true
+  // this.currentSprite = st.frontStand
 }
 
 Hero.prototype.update = function() {
@@ -98,13 +121,26 @@ Hero.prototype.setVisual = function() {
   game.debug.renderText( Math.round(absX)+" DELTA "+Math.round(absY) , 700, 32*2 )
   
   if( absX < 0.1 && absY < 0.1 ){ // STAND
-    spr = this.spriteStates.frontStand
-  } else if( 0.1 + absY > absX ){ // SIDE
+    // var pdX = this.sprite.body.preX
+    // var pdY = this.sprite.body.preY
+    // var abspX = Math.abs(pdX)
+    // var abspY = Math.abs(pdY)
+    if( this.currentSprite && !this.currentSprite.stand ){ // just STOPPED?
+      if( absY > absX ) // STOP VERTICAL
+        spr = (dY>0) ? this.spriteStates.frontStand : this.spriteStates.backStand
+      else
+        spr = (dX>0) ? this.spriteStates.rightStand : this.spriteStates.leftStand
+    }
+  } else if( 0.1 + absY > absX ){ // VERTICAL
     spr = (dY>0) ? this.spriteStates.frontWalk : this.spriteStates.backWalk
-  } else { // VERTICAL
-    spr = (dX>0) ? this.spriteStates.sideWalk : this.spriteStates.sideWalk
+  } else { // SIDE
+    spr = (dX>0) ? this.spriteStates.rightWalk : this.spriteStates.leftWalk
   }
 
+  // initial state
+  if(!spr) spr = this.currentSprite || this.spriteStates.frontStand
+
+  // this is acting a bit choppy/jumpy compared to only 1 frame, but its how they do in Tanks demo
   spr.x = this.sprite.x
   spr.y = this.sprite.y
   if( spr != this.currentSprite ){
@@ -114,7 +150,9 @@ Hero.prototype.setVisual = function() {
       this.currentSprite.visible = false
       this.currentSprite.animations.stop()
     }
-    spr.play('walk', 12, true);
+    if( spr && spr.animations._anims.walk ){
+      spr.play('walk', 12, true);
+    }
     this.currentSprite = spr
   }
 }
