@@ -56,5 +56,6 @@ function render() {
   game.debug.renderCameraInfo(game.camera, 32, 32);
   game.debug.renderSpriteInfo(hero.sprite, 320, 32);
   game.debug.renderSpriteBody(hero.sprite)
+  game.debug.renderText( "health "+Math.round( hero.sprite.health) , 700,32 )
 
 }

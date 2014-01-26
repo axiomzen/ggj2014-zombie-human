@@ -8,6 +8,8 @@ Hero = function () {
   this.sprite.x -= this.sprite.body.halfWidth
   this.sprite.anchor.setTo(0.5, 0.5);
 
+  this.sprite.health = 100
+
   this.level = 0
   this.percentage = 0
 }
@@ -35,14 +37,31 @@ Hero.prototype.update = function() {
     else if (cursors.right.isDown){
         this.sprite.body.velocity.x = 300;
     }
-
+    this.heal(0.1)
   }
 };
 
-Hero.prototype.pickMed = function() {
+// random damage for debug
+// setInterval( function() {
+//   if( hero ) hero.damage( 10 )
+// },1000)
+
+Hero.prototype.pickMed = function(med) {
   this.level++
   this.percentage = this.level / MAX_LEVEL
-  // console.log( "picked!" )
+  this.heal( med.heal )
+};
+
+Hero.prototype.heal = function(amt) {
+  this.sprite.health += amt
+  if( this.sprite.health > 100 ){
+    this.sprite.health = 100
+  } 
+};
+
+Hero.prototype.damage = function(amt) {
+  this.sprite.damage(amt)
+  // TODO some effect / frame
 };
 
 Hero.prototype.body = function() {
