@@ -15,7 +15,8 @@ Medicine.placeAll = function() {
   Medicine.group = game.add.group()
   d = WORLD_H / (LEVELS )
   for(var i = 0; i < LEVELS; i++){
-    Medicine.group.create(game.world.randomX, (d*i), 'mushroom')
-    console.log('mushroom', d*i)
+    var m = Medicine.group.create(game.world.randomX, (d*i), 'mushroom')
+    m.body.immovable = true;
+    // console.log('mushroom', d*i)
   }
 };

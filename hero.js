@@ -35,13 +35,14 @@ Hero.prototype.update = function() {
     else if (cursors.right.isDown){
         this.sprite.body.velocity.x = 300;
     }
+
   }
 };
 
 Hero.prototype.pickMed = function() {
   this.level++
   this.percentage = this.level / MAX_LEVEL
-
+  // console.log( "picked!" )
 };
 
 Hero.prototype.body = function() {

@@ -8,33 +8,47 @@ function preload() {
 
     game.load.image('mushroom', 'phaser-master/examples/assets/sprites/mushroom2.png');
     game.load.image('wabbit',   'phaser-master/examples/assets/sprites/wabbit.png');
+    game.load.image('sparkle',   'phaser-master/examples/assets/sprites/particle1.png');
 }
 
 var cursors;
 var hero
+var medEffectParticles
 
 function create() {
 
-    //  Modify the world and camera bounds
-    game.world.setBounds(0,0, WORLD_W,WORLD_H );
+  game.world.setBounds(0,0, WORLD_W,WORLD_H );
 
-    Medicine.placeAll()
+  Medicine.placeAll()
 
-    // for (var i = 0; i < 200; i++)
-    // {
-    //     game.add.sprite(game.world.randomX, game.world.randomY, 'mushroom');
-    // }
+  cursors = game.input.keyboard.createCursorKeys();
 
-    cursors = game.input.keyboard.createCursorKeys();
+  hero = new Hero()
+  game.camera.follow(hero.sprite);
 
-    hero = new Hero()
-
-    game.camera.follow(hero.sprite);
+  medEffectParticles = game.add.emitter(0, 0, 200);
+  medEffectParticles.makeParticles('sparkle');
+  medEffectParticles.minRotation = 0;
+  medEffectParticles.maxRotation = 0;
+  medEffectParticles.gravity = 0.0
+  medEffectParticles.setXSpeed(-300,300)
+  medEffectParticles.setYSpeed(-300,300)
 }
 
 function update() {
 
   hero.update()
+  game.physics.collide( hero.sprite, Medicine.group, heroPickMed )
+}
+
+function heroPickMed (heroSprite, med) {
+  med.kill()
+  hero.pickMed(med)
+
+  medEffectParticles.x = heroSprite.x;
+  medEffectParticles.y = heroSprite.y-hero.sprite.body.height;
+  //                      (explode, lifespan, frequency, quantity)
+  medEffectParticles.start(true, 1.3*1000, null, 14);
 }
 
 function render() {
