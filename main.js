@@ -150,6 +150,10 @@ function startGame () {
   game.playing = true
   game.music = game.add.audio('z1')
   game.music.play('', 10*1000)
+  // music.play('',0,1,true);
+  var scene = new Scene();
+  scene.build();
+  this.scene = scene;
 }
 
 function update() {
@@ -157,6 +161,8 @@ function update() {
 
   hero.update()
   game.physics.collide( hero.sprite, Medicine.group, heroPickMed )
+
+  this.scene.update();
 
   // auto-complete the game // game.physics.moveToObject(hero.sprite, Medicine.group.getFirstAlive(), 500)
 }
@@ -191,7 +197,9 @@ function heroPickMed (heroSprite, med) {
 
 function render() {
 
-  hero.render()
+  hero.render();
+  this.scene.render();
+  
 
   if( DEBUG ){
     game.debug.renderCameraInfo(game.camera, 32, 32);

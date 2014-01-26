@@ -14,5 +14,5 @@ HINTS = [
 "get medicine to prove..",
 "you ARE HUMAN!"
 ]
-
 DEBUG = false
+TOTAL_ENEMY = 10;
