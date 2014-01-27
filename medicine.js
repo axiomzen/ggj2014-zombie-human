@@ -19,7 +19,7 @@ Medicine.placeAll = function() {
     m.body.immovable = true;
     m.heal = 30
 
-    var tw = game.add.tween(m).to( { y:m.y+3 }, 1200, Phaser.Easing.Linear.None, true, 0, 1000, true)
-    // tw.loop = true
+    // IRRELEVANT
+    // var tw = game.add.tween(m).to( { y:m.y+3 }, 1200, Phaser.Easing.Linear.None, true, 0, 1000, true)
   }
 };
