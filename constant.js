@@ -14,5 +14,7 @@ HINTS = [
 "get medicine to prove..",
 "you ARE HUMAN!"
 ]
-
 DEBUG = false
+TOTAL_ENEMY = 50;
+FIRE_RATE = 500;
+DAMAGE_BULLET = 20;

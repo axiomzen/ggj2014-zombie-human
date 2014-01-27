@@ -157,6 +157,7 @@ Hero.prototype.setVisual = function() {
     }
     this.currentSprite = spr
   }
+  //game.debug.renderSpriteBody(this.sprite);
 }
 
 Hero.prototype.render = function() {
@@ -199,7 +200,11 @@ Hero.prototype.heal = function(amt) {
 
 Hero.prototype.damage = function(amt) {
   this.sprite.damage(amt)
+  console.log("hero damage", this.sprite.health);
   // TODO some effect / frame
+  if (this.sprite.health < 0) {
+    ui.GameOver.show();
+  }
 };
 
 Hero.prototype.body = function() {

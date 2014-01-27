@@ -8,12 +8,17 @@ function preload() {
     game.stage.backgroundColor = '#007236';
 
     game.load.image('med', 'images/potion1.png');
+    game.load.image('mushroom', 'phaser-master/examples/assets/sprites/mushroom2.png');
     game.load.image('sparkle',   'phaser-master/examples/assets/sprites/particle1.png');
+    game.load.image('bullet',   'images/bullet.png');
 
     game.load.spritesheet('linkBack', 'images/zombie1_back.png', 32, 32, 3);
     game.load.spritesheet('linkFront',   'images/zombie1_front.png', 32, 32, 3);
     game.load.spritesheet('linkLeft', 'images/zombie1_left.png', 32, 32, 3);
     game.load.spritesheet('linkRight', 'images/zombie1_right.png', 32, 32, 3);
+
+    game.load.spritesheet('enemy', 'images/enemy.png', 32, 32, 3);
+    //game.load.spritesheet('enemyLeft', 'images/enemy-left.png', 32, 32, 3);
 
     game.load.image('ground', 'images/earth.png') // light_grass, dark_grass
     game.load.image('titleBg', 'images/starfield.png')
@@ -39,6 +44,7 @@ var cursors;
 var hero
 var medEffectParticles
 var titleLayer
+var scene;
 
 function create() {
 
@@ -150,6 +156,9 @@ function startGame () {
   game.playing = true
   game.music = game.add.audio('z1')
   game.music.play('', 10*1000)
+  // music.play('',0,1,true);
+  scene = new Scene();
+  scene.build();
 }
 
 function update() {
@@ -157,6 +166,10 @@ function update() {
 
   hero.update()
   game.physics.collide( hero.sprite, Medicine.group, heroPickMed )
+
+  if (scene) {
+    scene.update();  
+  }
 
   // auto-complete the game // game.physics.moveToObject(hero.sprite, Medicine.group.getFirstAlive(), 500)
 }
@@ -191,7 +204,7 @@ function heroPickMed (heroSprite, med) {
 
 function render() {
 
-  hero.render()
+  hero.render();
 
   if( DEBUG ){
     game.debug.renderCameraInfo(game.camera, 32, 32);
