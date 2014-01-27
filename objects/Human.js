@@ -161,7 +161,7 @@ var EnemyHappyStrategy = EnemyStrategy.extend({
    *   "move" forward
    */
   update: function() {
-    console.log('happy');
+    // console.log('happy');
     var isAtEnd = this.steps === this.patrol().distance;
 
     if (isAtEnd) {
@@ -248,17 +248,17 @@ var EnemyAngryStrategy = EnemyStrategy.extend({
    *  Phase 2) human would move toward zombie, and shoot to zombie
    */
   update: function() {
-    console.log('angry');
+    // console.log('angry');
     this.stand();
     this.shootToPlayer();
   },
 
   stand: function() {
-    console.log('standing');
+    // console.log('standing');
   },
 
   shootToPlayer: function() {
-    console.log('start shoot');
+    // console.log('start shoot');
     //this.player.damage(1);
     if (game.time.now > this.nextFire && this.bullets.countDead()) {
       this.nextFire = game.time.now + this.fireRate;
