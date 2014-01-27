@@ -8,6 +8,7 @@ function preload() {
     game.stage.backgroundColor = '#007236';
 
     game.load.image('med', 'images/potion1.png');
+    game.load.image('bullet',   'images/bullet.png');
     game.load.image('sparkle',   'images/particle1.png');
 
     game.load.spritesheet('linkBack', 'images/zombie1_back.png', 32, 32, 3);
