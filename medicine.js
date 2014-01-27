@@ -15,8 +15,11 @@ Medicine.placeAll = function() {
   Medicine.group = game.add.group()
   d = WORLD_H / (LEVELS )
   for(var i = 0; i < LEVELS; i++){
-    var m = Medicine.group.create(game.world.randomX, (d*i), 'mushroom')
+    var m = Medicine.group.create(game.world.randomX, (d*i), 'med')
     m.body.immovable = true;
     m.heal = 30
+
+    var tw = game.add.tween(m).to( { y:m.y+3 }, 1200, Phaser.Easing.Linear.None, true, 0, 1000, true)
+    // tw.loop = true
   }
 };

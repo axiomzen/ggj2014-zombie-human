@@ -79,6 +79,8 @@ Hero = function () {
   // this.currentSprite.y = this.sprite.y
   // this.currentSprite.visible = true
   // this.currentSprite = st.frontStand
+
+  this.medPickupSound = game.add.audio('medPickup')
 }
 
 Hero.prototype.update = function() {
@@ -162,9 +164,10 @@ Hero.prototype.render = function() {
 }
 
 Hero.prototype.winMode = function() {
-  this.sprite.body.velocity.setTo(0,+0.001)
-  // this.currentSprite = this.spriteStates.frontStand
-  game.add.tween(this.currentSprite.scale).to( { x:30, y:30 }, 1000, Phaser.Easing.Linear.None, true);
+  this.medPickupSound.stop()
+  this.sprite.body.velocity.setTo(0,0.001)
+  // not sure why Tween target becomes undefined sometimes
+  // game.add.tween(this.currentSprite.scale).to( { x:30, y:30 }, 2000, Phaser.Easing.Linear.None, true);
 };
 
 // random damage for debug
@@ -173,6 +176,15 @@ Hero.prototype.winMode = function() {
 // },1000)
 
 Hero.prototype.pickMed = function(med) {
+  this.medPickupSound.stop()
+  this.medPickupSound.play('',0,1,false,true)
+
+  if( this.level+1 <= 8 ){
+    game.music.stop()
+    game.music = game.add.audio('z'+(this.level+1))
+    game.music.play( '', 0, 1, true )
+  }
+  
   this.level++
   this.percentage = this.level / MAX_LEVEL
   this.heal( med.heal )

@@ -6,8 +6,7 @@ function preload() {
 
     game.stage.backgroundColor = '#007236';
 
-    game.load.image('mushroom', 'phaser-master/examples/assets/sprites/mushroom2.png');
-    // game.load.image('wabbit',   'phaser-master/examples/assets/sprites/wabbit.png');
+    game.load.image('med', 'images/potion1.png');
     game.load.image('sparkle',   'phaser-master/examples/assets/sprites/particle1.png');
 
     game.load.spritesheet('linkBack', 'images/zombie1_back.png', 32, 32, 3);
@@ -19,6 +18,17 @@ function preload() {
     game.load.image('titleBg', 'images/starfield.png')
 
     game.load.audio('ztitle', ['audio/music/ZombieTitle.mp3', 'audio/music/ZombieTitle.ogg']);
+    game.load.audio('zvictory', ['audio/music/Victory.mp3', 'audio/music/Victory.ogg']);
+    game.load.audio('z1', ['audio/music/Z1.mp3', 'audio/music/Z1.ogg']);
+    game.load.audio('z2', ['audio/music/Z2.mp3', 'audio/music/Z2.ogg']);
+    game.load.audio('z3', ['audio/music/Z3.mp3', 'audio/music/Z3.ogg']);
+    game.load.audio('z4', ['audio/music/Z4.mp3', 'audio/music/Z4.ogg']);
+    game.load.audio('z5', ['audio/music/Z5.mp3', 'audio/music/Z5.ogg']);
+    game.load.audio('z6', ['audio/music/Z6.mp3', 'audio/music/Z6.ogg']);
+    game.load.audio('z7', ['audio/music/Z7.mp3', 'audio/music/Z7.ogg']);
+    game.load.audio('z8', ['audio/music/Z8.mp3', 'audio/music/Z8.ogg']);
+
+    game.load.audio('medPickup', ['audio/fx/MedkitPickup.mp3','audio/fx/MedkitPickup.ogg'])
 }
 
 var cursors;
@@ -75,13 +85,22 @@ function makeTitleScreen () {
   h1.y = game.camera.y + game.camera.height/2
   titleLayer.add(h1)
 
-  walker = game.add.sprite( SCREEN_W/2, WORLD_H - SCREEN_H/2, 'linkRight', 1)
+  walker = game.add.sprite( SCREEN_W/2, WORLD_H - (SCREEN_H/2)*1.0, 'linkRight', 1)
   walker.scale.x = 5
   walker.scale.y = 5
   walker.anchor.setTo(0.5, 0.5);
   walker.animations.add('walk', [1,0,2])
   walker.play('walk', 12, true);
   titleLayer.add( walker )
+
+  // walker = game.add.sprite( SCREEN_W/2, WORLD_H - (SCREEN_H/2)*0.6, 'linkRight', 1)
+  // walker.scale.x = 5
+  // walker.scale.y = 5
+  // walker.anchor.setTo(0.5, 0.5);
+  // walker.animations.add('walk', [1,0,2])
+  // walker.play('walk', 12, true);
+  // titleLayer.add( walker )
+
 
   startBtn = new Phaser.Button(game, SCREEN_W/2, WORLD_H - SCREEN_H/2 + 200, 'btn', startGame, this, 2, 1, 0);
   startBtn.anchor.setTo(0.5, 0.5);
@@ -96,6 +115,12 @@ function makeTitleScreen () {
 
 function winGame () {
   game.playing = false
+  game.music.stop()
+  hero.medPickupSound.stop()
+
+  game.music = game.add.audio('zvictory')
+
+  game.music.play()
 
   var text = "You are now seen as Human!\nVICTORY";
   var style = { font: "bold 40pt Arial", fill: "#ffffff", align: "center", stroke: "#258acc", strokeThickness: 8 };
@@ -112,7 +137,8 @@ function startGame () {
   game.music.stop()
   titleLayer.visible = false
   game.playing = true
-  // music.play('',0,1,true);
+  game.music = game.add.audio('z1')
+  game.music.play('', 10*1000)
 }
 
 function update() {
