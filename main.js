@@ -17,6 +17,9 @@ function preload() {
     game.load.spritesheet('linkLeft', 'images/zombie1_left.png', 32, 32, 3);
     game.load.spritesheet('linkRight', 'images/zombie1_right.png', 32, 32, 3);
 
+    game.load.spritesheet('enemyLeft', 'images/enemy-left.png', 32, 32, 3);
+    game.load.spritesheet('enemyRight', 'images/enemy-right.png', 32, 32, 3);
+
     game.load.image('ground', 'images/earth.png') // light_grass, dark_grass
     game.load.image('titleBg', 'images/starfield.png')
     game.load.image('title1', 'images/title1.png')
