@@ -1,6 +1,7 @@
 
+// DEBUG
 
-var game = new Phaser.Game(SCREEN_W, SCREEN_H, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render : render });
+var game = new Phaser.Game(SCREEN_W, SCREEN_H, (DEBUG ? Phaser.CANVAS : Phaser.AUTO), '', { preload: preload, create: create, update: update, render : render });
 
 function preload() {
 
@@ -16,6 +17,9 @@ function preload() {
 
     game.load.image('ground', 'images/earth.png') // light_grass, dark_grass
     game.load.image('titleBg', 'images/starfield.png')
+    game.load.image('title1', 'images/title1.png')
+    // game.load.image('startDown', 'images/startDown1.png')
+    game.load.spritesheet('startBtn', 'images/startBtn.png', 382/2, 68);
 
     game.load.audio('ztitle', ['audio/music/ZombieTitle.mp3', 'audio/music/ZombieTitle.ogg']);
     game.load.audio('zvictory', ['audio/music/Victory.mp3', 'audio/music/Victory.ogg']);
@@ -77,15 +81,22 @@ function makeTitleScreen () {
   bg.scale.x = 2
   titleLayer.add( bg )
 
-  var text = "Humanize Me!";
-  var style = { font: "bold 40pt Arial", fill: "#ffffff", align: "center", stroke: "#258acc", strokeThickness: 8 };
-  h1 = new Phaser.Text(game, game.world.centerX, game.camera.y, text, style);
-  h1.anchor.setTo(0.5, 0.5);
-  // console.log(h1.x,h1.y)
-  h1.y = game.camera.y + game.camera.height/2
-  titleLayer.add(h1)
+  // var text = "Humanize Me!";
+  // var style = { font: "bold 40pt Arial", fill: "#ffffff", align: "center", stroke: "#258acc", strokeThickness: 8 };
+  // h1 = new Phaser.Text(game, game.world.centerX, game.camera.y, text, style);
+  // h1.anchor.setTo(0.5, 0.5);
+  // // console.log(h1.x,h1.y)
+  // h1.y = game.camera.y + game.camera.height/2
+  // titleLayer.add(h1)
 
-  walker = game.add.sprite( SCREEN_W/2, WORLD_H - (SCREEN_H/2)*1.0, 'linkRight', 1)
+  h1 = game.add.sprite( SCREEN_W/2, WORLD_H - (SCREEN_H*2), 'title1', 1)
+  h1.scale.setTo(1.1,1.5)
+  h1.anchor.setTo(0.5, 0.5);
+  titleLayer.add( h1 )
+  // h1.animations.add('walk', [1,0,2])
+  // h1.play('walk', 12, true);
+
+  walker = game.add.sprite( SCREEN_W/2, WORLD_H - (SCREEN_H/2)*0.9, 'linkRight', 1)
   walker.scale.x = 5
   walker.scale.y = 5
   walker.anchor.setTo(0.5, 0.5);
@@ -102,13 +113,13 @@ function makeTitleScreen () {
   // titleLayer.add( walker )
 
 
-  startBtn = new Phaser.Button(game, SCREEN_W/2, WORLD_H - SCREEN_H/2 + 200, 'btn', startGame, this, 2, 1, 0);
+  startBtn = new Phaser.Button(game, SCREEN_W/2, WORLD_H - SCREEN_H/2 + 200, 'startBtn', startGame, this, 1, 0, 1);
   startBtn.anchor.setTo(0.5, 0.5);
   titleLayer.add( startBtn )
 
   // because it dont work: h1.fixedToCamera = true
   setTimeout(function() {
-    h1.y = game.camera.y - 100
+    h1.y = game.camera.y*0.97
     game.add.tween(h1).to( { y: h1.y+game.camera.height/2 }, 1000, Phaser.Easing.Linear.None, true);
   }, 1000)
 }
@@ -182,9 +193,11 @@ function render() {
 
   hero.render()
 
-  game.debug.renderCameraInfo(game.camera, 32, 32);
-  game.debug.renderSpriteInfo(hero.sprite, 320, 32);
-  // game.debug.renderSpriteBody(hero.sprite)
-  game.debug.renderText( "health "+Math.round( hero.sprite.health) , 700,32 )
-  // game.debug.renderSpriteBody(hero.sprite)
+  if( DEBUG ){
+    game.debug.renderCameraInfo(game.camera, 32, 32);
+    game.debug.renderSpriteInfo(hero.sprite, 320, 32);
+    // game.debug.renderSpriteBody(hero.sprite)
+    game.debug.renderText( "health "+Math.round( hero.sprite.health) , 700,32 )
+    // game.debug.renderSpriteBody(hero.sprite)
+  }
 }

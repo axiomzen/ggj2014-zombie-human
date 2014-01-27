@@ -92,7 +92,7 @@ Hero.prototype.update = function() {
 
     // Phaser.Rectangle.contains(this.sprite.body, game.input.x, game.input.y)
     if (game.input.mousePointer.isDown && !Phaser.Rectangle.contains(this.sprite.body, game.input.x + game.camera.x, game.input.y +  game.camera.y) ) {
-      game.physics.moveToPointer(this.sprite, 600);
+      game.physics.moveToPointer(this.sprite, 220);
     }
 
     if (cursors.up.isDown){
@@ -120,7 +120,7 @@ Hero.prototype.setVisual = function() {
   var absX = Math.abs(dX)
   var absY = Math.abs(dY)
 
-  game.debug.renderText( Math.round(absX)+" DELTA "+Math.round(absY) , 700, 32*2 )
+  // game.debug.renderText( Math.round(absX)+" DELTA "+Math.round(absY) , 700, 32*2 )
   
   if( absX < 0.1 && absY < 0.1 ){ // STAND
     // var pdX = this.sprite.body.preX

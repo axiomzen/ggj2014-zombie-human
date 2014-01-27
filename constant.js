@@ -6,6 +6,7 @@ WORLD_H = SCREEN_H * 10 * 1.0 // a CONST to reduce or increase land
 
 LEVELS = 10
 
+// NOT being used now
 HINTS = [
 "you want to be a human",
 "but humans try to kill you",
@@ -13,3 +14,5 @@ HINTS = [
 "get medicine to prove..",
 "you ARE HUMAN!"
 ]
+
+DEBUG = false
