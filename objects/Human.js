@@ -33,7 +33,10 @@ var EnemyHuman = EnemyBase.extend({
 
   buildBody: function() {
     /* sprite */
-    this.sprite = game.add.sprite(this.patrol.point.x, this.patrol.point.y, 'sparkle', this.index);
+    this.sprite = game.add.sprite(this.patrol.point.x, this.patrol.point.y, 'enemy', this.index);
+    this.sprite.animations.add('walk', [1, 0, 2]);
+    this.sprite.play('walk', 12, true);
+    
     this.sprite.name = this.index + "";
     this.sprite.anchor.setTo(0.5, 0.5);
     //this.sprite.body.collideWorldBounds = true;
@@ -261,6 +264,7 @@ var EnemyAngryStrategy = EnemyStrategy.extend({
       this.nextFire = game.time.now + this.fireRate;
 
       var bullet = this.bullets.getFirstDead();
+      bullet.scale.setTo(0.8, 0.8);
       bullet.reset(this.enemy.sprite.x, this.enemy.sprite.y);
 
       bullet.rotation = game.physics.moveToObject(bullet, this.player.sprite, 250);
