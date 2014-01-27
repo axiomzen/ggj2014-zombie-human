@@ -6,10 +6,19 @@ var Scene = Backbone.Model.extend({
   },
 
   build: function() {
+    this.buildBullets();
     this.buildEnemies();
   },
 
   buildBackground: function() {
+  },
+
+  buildBullets: function() {
+    this.bullets = game.add.group();
+    this.bullets.createMultiple(100, 'bullet');
+    this.bullets.setAll('anchor.x', 0.5);
+    this.bullets.setAll('anchor.y', 0.5);
+    this.bullets.setAll('outOfBoundsKill', 0.5);
   },
 
   buildEnemies: function() {
@@ -23,13 +32,13 @@ var Scene = Backbone.Model.extend({
       turnDegree: -Math.PI,
       distance: 100,
       speed: 2,
-      stand: 100
+      stand: 1
     };
 
     //this.enemy = new EnemyHuman(0, hero, patrol);
     this.enemies = [];
     
-    for (var i = 0, len = TOTAL_ENEMY, Y = WORLD_H - 200; i < len; i++, Y -= 200) {
+    for (var i = 0, len = TOTAL_ENEMY, Y = WORLD_H - 500; i < len; i++, Y -= 100) {
       var X = game.rnd.integerInRange(200, WORLD_W - 200);
       var enemy = this.buildOneEnemyWithXAndY(X, Y, i);
       this.enemies.push(enemy);
@@ -57,6 +66,14 @@ var Scene = Backbone.Model.extend({
     _.each(this.enemies, function(enemy) {
       enemy.update();
     });
+
+    game.physics.collide(this.bullets, hero.sprite, this.bulletHitPlayer, null, this);
+  },
+
+  bulletHitPlayer: function(player, bullet) {
+    bullet.kill();
+    // hit hero
+    hero.damage(DAMAGE_BULLET);
   },
 
   render: function() {

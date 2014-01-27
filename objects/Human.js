@@ -18,8 +18,8 @@ var EnemyHuman = EnemyBase.extend({
 
     /* buildModes */
     this.modes = {};
-    this.modes[EnemyMode.Angry] = new EnemyAngryStrategy(this, player);
-    this.modes[EnemyMode.Happy] = new EnemyHappyStrategy(this, player);
+    this.modes[EnemyMode.Angry] = new EnemyAngryStrategy(this, player, scene.bullets);
+    this.modes[EnemyMode.Happy] = new EnemyHappyStrategy(this, player, scene.bullets);
 
     this.buildBody();
     this.buildVisibleArea();
@@ -33,16 +33,11 @@ var EnemyHuman = EnemyBase.extend({
 
   buildBody: function() {
     /* sprite */
-    this.sprite = game.add.sprite(this.patrol.point.x, this.patrol.point.y, 'wabbit', this.index);
+    this.sprite = game.add.sprite(this.patrol.point.x, this.patrol.point.y, 'sparkle', this.index);
     this.sprite.name = this.index + "";
     this.sprite.anchor.setTo(0.5, 0.5);
     //this.sprite.body.collideWorldBounds = true;
-    //
-    //  This adjusts the collision body size.
-    //  100x50 is the new width/height.
-    //  50, 25 is the X and Y offset of the newly sized box.
-    //  In this case the box is 50px in and 25px down.
-    this.sprite.body.setSize(100, 100, 0, 0);
+    //this.sprite.body.setSize(100, 100, 0, 0);
   },
 
   buildVisibleArea: function() {
@@ -76,8 +71,10 @@ var EnemyHuman = EnemyBase.extend({
    *    "walk around"
    */
   update: function() {
-    this.mode(EnemyMode.Happy);
-    game.physics.collide(this.visibleArea(), this.player.sprite, this.seePlayer, null, this);
+    var DISTANCE_ANGRY = 300;
+    var isAngry = game.physics.distanceBetween(this.visibleArea(), this.player.sprite) < DISTANCE_ANGRY;
+    this.mode(isAngry? EnemyMode.Angry : EnemyMode.Happy);
+    //game.physics.collide(this.visibleArea(), this.player.sprite, this.seePlayer, null, this);
     this.mode().update();
   },
 
@@ -108,12 +105,12 @@ var EnemyHuman = EnemyBase.extend({
     //area.position(pos);
 
     //return area;
-  },
-
-  seePlayer: function() {
-    console.log('see player');
-    this.mode(EnemyMode.Angry);
   }
+
+  //seePlayer: function() {
+  //  console.log('see player');
+  //  this.mode(EnemyMode.Angry);
+  //}
 });
 
 var EnemyStrategy = EnemyBase.extend({
@@ -233,9 +230,13 @@ var EnemyHappyStrategy = EnemyStrategy.extend({
 var EnemyAngryStrategy = EnemyStrategy.extend({
   name: EnemyMode.Angry,
 
-  initialize: function(enemy, player) {
+  initialize: function(enemy, player, bullets) {
     this.enemy = enemy;
     this.player = player;
+    this.bullets = bullets;
+
+    this.nextFire = 0;
+    this.fireRate = FIRE_RATE;
   },
 
   /*
@@ -250,10 +251,20 @@ var EnemyAngryStrategy = EnemyStrategy.extend({
   },
 
   stand: function() {
+    console.log('standing');
   },
 
   shootToPlayer: function() {
-    this.player.damage(1);
+    console.log('start shoot');
+    //this.player.damage(1);
+    if (game.time.now > this.nextFire && this.bullets.countDead()) {
+      this.nextFire = game.time.now + this.fireRate;
+
+      var bullet = this.bullets.getFirstDead();
+      bullet.reset(this.enemy.sprite.x, this.enemy.sprite.y);
+
+      bullet.rotation = game.physics.moveToObject(bullet, this.player.sprite, 250);
+    }
   }
 
 });
