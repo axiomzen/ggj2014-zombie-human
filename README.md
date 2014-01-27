@@ -35,8 +35,5 @@ grunt connect
 open http://localhost:8000/examples
 ```
 
-### map generation
-
-Experimenting with [Tiled](http://www.mapeditor.org/) 
 
 
